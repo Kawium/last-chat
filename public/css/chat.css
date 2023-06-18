@@ -71,7 +71,7 @@ body {
 .chat-messages .message {
   padding: 10px;
   margin-bottom: 15px;
-  background-color: var(--light-color);
+  background-color: #00000033;
   border-radius: 5px;
   overflow-wrap: break-word;
 }
