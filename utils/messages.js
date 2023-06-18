@@ -1,7 +1,11 @@
-import React from "react";
+const moment = require("moment");
 
-function messages() {
-  return <div>messages</div>;
+function formatMessage(username, text) {
+  return {
+    username,
+    text,
+    time: moment().format("h:mm a"),
+  };
 }
 
-export default messages;
+module.exports = formatMessage;
