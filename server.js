@@ -13,6 +13,7 @@ const {
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+const botName = "Hiven Bot";
 const PORT = process.env.PORT || 3000;
 
 // Set static folder
@@ -48,4 +49,26 @@ function handleJoinRoom({ username, room }) {
     room: user.room,
     users: getRoomUsers(user.room),
   });
+}
+
+function handleChatMessage(msg) {
+  const user = getCurrentUser(this.id);
+  io.to(user.room).emit("message", formatMessage(user.username, msg));
+}
+
+function handleDisconnect() {
+  const user = userLeave(this.id);
+
+  if (user) {
+    io.to(user.room).emit(
+      "message",
+      formatMessage(botName, `${user.username} has left the chat`)
+    );
+
+    // Send users and room info
+    io.to(user.room).emit("roomUsers", {
+      room: user.room,
+      users: getRoomUsers(user.room),
+    });
+  }
 }
